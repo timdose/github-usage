@@ -10,11 +10,11 @@ html(lang='en')
 
     script(src='http://localhost:35729/livereload.js')
   body
-    block content
+    .container
+      block content
 
 
+    script(src='/components/jquery/dist/jquery.min.js')
+    
     block js
-      script(src='/components/jquery/dist/jquery.min.js')
-      script(src='/components/d3/d3.min.js')
-      script(src='/js/chart.js')
       
