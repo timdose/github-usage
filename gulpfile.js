@@ -6,7 +6,7 @@ gulp.task('develop', function () {
   livereload.listen();
   nodemon({
     script: 'bin/www',
-    ext: 'js jade tsv css',
+    ext: 'js html tsv css',
   }).on('restart', function () {
     setTimeout(function () {
       livereload.changed();

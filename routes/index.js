@@ -12,7 +12,7 @@ var github = new GithubApi({
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
+    res.render('index.html', { title: 'Express' });
 });
 
 router.get('/user/:user', function(req, res ) {
@@ -22,7 +22,7 @@ router.get('/user/:user', function(req, res ) {
             user: req.params.user,
             repos: repos
         }
-        res.render('user', data);
+        res.render('user.html', data);
     });
 });
 
