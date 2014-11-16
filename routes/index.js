@@ -26,13 +26,22 @@ router.get('/user', function(req, res ) {
         var repos = _(response).pluck('name');
         var data = {
             user: req.query.user,
-            repos: repos,
-            raw: {
-                repos:response
-            }
+            repos: response,
         }
+
+
         res.render('user.html', data);
     });
+
+    // github.events.getFromUser({user:req.query.user}, function(err, response ) {
+    //     var data = {
+    //         user: req.query.user,
+    //         raw: {
+    //             events:response
+    //         }
+    //     }
+    //     res.render('user.html', data);
+    // });
 });
 
 module.exports = router;

@@ -10,11 +10,11 @@
     <h2>Repos</h2>
     <ul>
         {% for repo in repos %}
-            <li>{{repo}}</li>
+            <li><a href="https://github.com/{{repo.full_name}}">{{repo.name}}</a></li>
         {% endfor %}
     </ul>
 
     <pre>
-        {{raw.repos|stringify}}
+        {{repos|stringify}}
     </pre>
 {% endblock %}
