@@ -25,41 +25,150 @@ router.get('/user/:user', function(req, res ) {
     });
 });
 
-// router.get('/user/:user', function(req, res ) {
-//     var body = '';
+// router.get('/user-alt/:user', function(request, response ) {
+//     // var options = {
+//     //     host: 'api.github.com',
+//     //     path: '/users/timdose/events',
+//     //     method: 'get',
+//     //     port: 443,
+//     //     headers: { 
+//     //         host: 'api.github.com',
+//     //         'content-length': '0',
+//     //         'user-agent': 'NodeJS HTTP Client',
+//     //         accept: 'application/vnd.github.beta+json' 
+//     //     }
+//     // }
 
-//     // https.globalAgent.options.secureProtocol = 'SSLv3_method';
-
-//     var options = {
-//         host: 'api.github.com',
-//         path: '/users/:user/repos'.replace(':user', req.params.user),
-//         method: 'GET',
-//         headers: {
-//             'host': 'api.github.com',
-//             // 'user-agent':'github-usage',
-//             'content-length': '0'
-//         },
-//         port: 443
+//     var callback = function(err, res) {
+//         if (err !== null) {
+//             response.send(err)
+//         } else {
+//             response.send(res);
+//         }
 //     }
 
-//     console.log('fetching data from ' + options.host + options.path );
-    
-//     var request = https.request(options, function(response) {
-//         response.setEncoding('utf8');
+//     this.config = {
+//         timeout: 5000
+//     }
 
-//         response.on('data', function(chunk) {
-//             body += chunk;
-//         });
+//     var self = {
+//         debug: true
+//     }
 
-//         response.on('end', function() {
-//             console.log(body);
-//             var data = JSON.parse(body);
-//             res.render('user', data );
+//     var protocol = 'https';
+//     var host = 'api.github.com';
+//     var port = 443;
+//     var path = '/users/timdose/events';
+//     var method = 'get';
+//     var headers = { 
+//         host: 'api.github.com',
+//         'content-length': '0',
+//         'user-agent': 'timdose',
+//         accept: 'application/vnd.github.beta+json' 
+//     };
+
+
+//     var options = {
+//         host: host,
+//         port: port,
+//         path: path,
+//         method: method,
+//         headers: headers
+//     };
+
+//     var callbackCalled = false;
+
+//     var req = require(protocol).request(options, function(res) {
+//         if (self.debug) {
+//             console.log("STATUS: " + res.statusCode);
+//             console.log("HEADERS: " + JSON.stringify(res.headers));
+//         }
+//         res.setEncoding("utf8");
+//         var data = "";
+//         res.on("data", function(chunk) {
+//             data += chunk;
 //         });
-//     })
-//     .on('error', function (e) {
-//         console.log('Error:', e);
+//         res.on("error", function(err) {
+//             if (!callbackCalled) {
+//                 callbackCalled = true;
+//                 callback(err);
+//             }
+//         });
+//         res.on("end", function() {
+//             if (callbackCalled)
+//                 return;
+//             callbackCalled = true;
+//             if (res.statusCode >= 400 && res.statusCode < 600 || res.statusCode < 10) {
+//                 callback(new error.HttpError(data, res.statusCode));
+//             } else {
+//                 res.data = data;
+//                 callback(null, res);
+//             }
+//         });
 //     });
+//     if (this.config.timeout) {
+//         req.setTimeout(this.config.timeout);
+//     }
+//     req.on("error", function(e) {
+//         if (self.debug)
+//             console.log("problem with request: " + e.message);
+//         if (!callbackCalled) {
+//             callbackCalled = true;
+//             callback(e.message);
+//         }
+//     });
+//     req.on("timeout", function() {
+//         if (self.debug)
+//             console.log("problem with request: timed out");
+//         if (!callbackCalled) {
+//             callbackCalled = true;
+//             callback('timeout');
+//         }
+//     });
+
+//     req.end();
+
 // });
+
+
+router.get('/user-alt/:user', function(req, res ) {
+    var body = '';
+
+    // https.globalAgent.options.secureProtocol = 'SSLv3_method';
+
+    var options = {
+        host: 'api.github.com',
+        path: '/users/:user/events'.replace(':user', req.params.user),
+        method: 'get',
+        headers: { 
+            host: 'api.github.com',
+            'content-length': '0',
+            'user-agent': 'github-usage',
+            accept: 'application/vnd.github.beta+json' 
+        },
+        port: 443
+    }
+
+    console.log('fetching data from ' + options.host + options.path );
+    
+    var request = https.request(options, function(response) {
+        response.setEncoding('utf8');
+
+        response.on('data', function(chunk) {
+            body += chunk;
+        });
+
+        response.on('end', function() {
+            console.log(body);
+            var data = JSON.parse(body);
+            res.render('user', data );
+        });
+    })
+    .on('error', function (e) {
+        console.log('Error:', e);
+    });
+
+    request.end();
+});
 
 module.exports = router;
