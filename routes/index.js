@@ -15,6 +15,12 @@ router.get('/', function(req, res) {
     res.render('index.html', { title: 'Express' });
 });
 
+
+router.get('/chart', function(req, res) {
+    res.render('chart.html');
+});
+
+
 router.get('/user/:user', function(req, res ) {
     github.repos.getFromUser({user:req.params.user}, function(err, response ) {
         var repos = _(response).pluck('name');
