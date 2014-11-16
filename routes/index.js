@@ -1,6 +1,7 @@
 var express = require('express');
 var https = require('https');
 var GithubApi = require('github');
+var _ = require('lodash/dist/lodash.underscore');
 
 var router = express.Router();
 
@@ -16,9 +17,10 @@ router.get('/', function(req, res) {
 
 router.get('/user/:user', function(req, res ) {
     github.repos.getFromUser({user:req.params.user}, function(err, response ) {
+        var repos = _(response).pluck('name');
         var data = {
             user: req.params.user,
-            repos: JSON.stringify(response)
+            repos: repos
         }
         res.render('user', data);
     });
