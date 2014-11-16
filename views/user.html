@@ -3,9 +3,14 @@
 {% block content %}
     <h1>
         {{user}}
+        <div class="lead">
+            <a href="https://github.com/{{user}}">github.com/{{user}}</a>
+        </div>
     </h1>
     <h2>Repos</h2>
-    <pre>
-        {{repos}}
-    </pre>
+    <ul>
+        {% for repo in repos %}
+            <li>{{repo}}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
