@@ -1,6 +1,7 @@
 var express = require('express');
 var https = require('https');
 var GithubApi = require('github');
+var async = require('async');
 var _ = require('lodash/dist/lodash.underscore');
 
 var router = express.Router();
@@ -22,26 +23,31 @@ router.get('/chart', function(req, res) {
 
 
 router.get('/user', function(req, res ) {
-    github.repos.getFromUser({user:req.query.user}, function(err, response ) {
-        var repos = _(response).pluck('name');
+    var user = req.query.user;
+
+    github.repos.getFromUser({user:user}, function(err, repos ) {
         var data = {
-            user: req.query.user,
-            repos: response,
+            user: user,
+            repos: repos,
         }
 
-
-        res.render('user.html', data);
+        async.forEach( repos, function(repo, done ) {
+                console.log('querying api about repo ' + repo.name)
+                github.repos.getCommits({
+                    user: repo.owner.login,
+                    repo: repo.name,
+                    author: user
+                }, function( err, commits ) {
+                    repo.numCommits = commits.length;
+                    repo.commits = commits;
+                    done();
+                })
+            }, function(err) {
+                console.log('all repos queried');
+                res.render('user.html', data);
+            }
+        );
     });
-
-    // github.events.getFromUser({user:req.query.user}, function(err, response ) {
-    //     var data = {
-    //         user: req.query.user,
-    //         raw: {
-    //             events:response
-    //         }
-    //     }
-    //     res.render('user.html', data);
-    // });
 });
 
 module.exports = router;
