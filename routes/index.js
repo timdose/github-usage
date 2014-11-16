@@ -26,7 +26,10 @@ router.get('/user', function(req, res ) {
         var repos = _(response).pluck('name');
         var data = {
             user: req.query.user,
-            repos: repos
+            repos: repos,
+            raw: {
+                repos:response
+            }
         }
         res.render('user.html', data);
     });

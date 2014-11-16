@@ -17,6 +17,11 @@ var env = nunjucks.configure('views', {
     express: app
 });
 
+env.addFilter('stringify', function(str) {
+  return JSON.stringify(str, null, '    ');
+});
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'nunjucks');
 
