@@ -28,6 +28,9 @@ function drawCommitsByRepoChart(data) {
 
     var repos = data.repos.map(function(repo){
         return {name:repo.name, numCommits: repo.numCommits}
+    })
+    .filter(function(repo) {
+        return repo.numCommits > 0;
     });
 
     var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
