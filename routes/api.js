@@ -22,7 +22,7 @@ router.get('/user/:user', function(req, res) {
 
 
 function fetchLocal(req, res) {
-    require('fs').readFile('data/timdose.json', 'utf8', function(err, data) {
+    require('fs').readFile('data/visionmedia.json', 'utf8', function(err, data) {
         if (err) {
             console.log(err);
         }
@@ -66,6 +66,8 @@ function fetchFromApi(req, res) {
         }, function(err) {
             if (err) {
                 console.log(err);
+                res.status(500);
+                res.send(err);
             } else {
                 console.log('all repos queried');
                 res.json(data);

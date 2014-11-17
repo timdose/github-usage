@@ -5,7 +5,7 @@ $(document).ready(function() {
         event.preventDefault();
     });
 
-    // $('#input button').click();
+    $('#input button').click();
 });
 
 
@@ -71,9 +71,10 @@ function drawCommitsByRepoChart(data) {
         .call(yAxis)
         .append('text')
         .attr('transform', 'rotate(-90)')
-        .attr('y', 6)
+        .attr('y', -35 )
+        .attr('x', 0- (height/2))
         .attr('dy', '.71em')
-        .style('text-anchor', 'end')
+        .style('text-anchor', 'middle')
         .text('# Commits')
 
     var bar = chart.selectAll('.bar-group')
