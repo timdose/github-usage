@@ -1,17 +1,26 @@
-var gulp = require('gulp'),
-  nodemon = require('gulp-nodemon'),
-  livereload = require('gulp-livereload');
+var gulp = require('gulp');
+var nodemon = require('gulp-nodemon');
+var livereload = require('gulp-livereload');
+var argv = require('yargs').argv;
 
 gulp.task('develop', function () {
   livereload.listen();
-  nodemon({
+
+  var options = {
     script: 'bin/www',
     ext: 'js html tsv css',
-  }).on('restart', function () {
+  }
+
+  if (argv.local) {
+    console.log('setting Node env to "local"')
+    options.env = { 'NODE_ENV' : 'local' };
+  }
+
+  nodemon(options).on('restart', function () {
     setTimeout(function () {
       livereload.changed();
     }, 500);
   });
 });
 
-gulp.task('default', ['develop']);
+gulp.task('serve', ['develop']);
