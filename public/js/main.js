@@ -24,6 +24,8 @@ function fetchData(user) {
 
 
 function drawCommitsByRepoChart(data) {
+    $('#chart').children().remove();
+
     var repos = data.repos.map(function(repo){
         return {name:repo.name, numCommits: repo.numCommits}
     });
@@ -54,6 +56,7 @@ function drawCommitsByRepoChart(data) {
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient('left')
+
 
     var chart = d3.select('#chart')
         .attr('width', width + margin.left + margin.right )
