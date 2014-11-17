@@ -5,7 +5,7 @@ $(document).ready(function() {
         event.preventDefault();
     });
 
-    $('#input button').click();
+    // $('#input button').click();
 });
 
 
@@ -85,9 +85,7 @@ function drawCommitsByRepoChart(data) {
 
     bar.append('rect')
         .attr('class', 'bar')
-        // .attr('y', 10)
         .attr('y', function(d) { console.log(d); return y(d.numCommits); })
-        // .attr('height', height-10)
         .attr('height', function(d) { return height - y(d.numCommits); })
         .attr('width', x.rangeBand() )
     
