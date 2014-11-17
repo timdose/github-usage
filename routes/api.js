@@ -46,21 +46,31 @@ function fetchFromApi(req, res) {
         }
 
         async.forEach( repos, function(repo, done ) {
-                console.log('querying api about repo ' + repo.name)
-                github.repos.getCommits({
-                    user: repo.owner.login,
-                    repo: repo.name,
-                    author: user
-                }, function( err, commits ) {
+            console.log('querying api about repo ' + repo.name)
+            github.repos.getCommits({
+                user: repo.owner.login,
+                repo: repo.name,
+                author: user
+            }, function( err, commits ) {
+                if (err) {
+                    console.log(err);
+                    repo.numCommits = 0;
+                    repo.commits = [];
+                    done();
+                } else {
                     repo.numCommits = commits.length;
                     repo.commits = commits;
                     done();
-                })
-            }, function(err) {
+                }
+            })
+        }, function(err) {
+            if (err) {
+                console.log(err);
+            } else {
                 console.log('all repos queried');
                 res.json(data);
             }
-        );
+        });
     });
 }
 
