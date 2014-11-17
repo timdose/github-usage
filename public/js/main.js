@@ -1,8 +1,11 @@
 
 $(document).ready(function() {
-    $('#input').on('submit', function() {
+    $('#input').on('submit', function(event) {
         fetchData($('#user').val());
+        event.preventDefault();
     });
+
+    $('#input button').click();
 });
 
 
@@ -12,8 +15,7 @@ function fetchData(user) {
         dataType: 'json'
     })
     .done( function( data ) {
-        console.log(data);
-        drawChart(data);
+        drawCommitsByRepoChart(data);
     })
     .error( function(err) {
         console.log(err);
@@ -21,7 +23,12 @@ function fetchData(user) {
 }
 
 
-function drawChart(data) {
+function drawCommitsByRepoChart(data) {
+    var repos = data.repos.map(function(repo){
+        return {name:repo.name, numCommits: repo.numCommits}
+    });
+
+    var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
 
     var margin = {
         top: 40,
@@ -34,14 +41,11 @@ function drawChart(data) {
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0,width], .1)
-        .domain(data.map(function(d) { return d.name; }));
+        .domain(repos.map(function(repo) { return repo.name; }));
 
     var y = d3.scale.linear()
-        .range([height, 0]);
-
-    var color = d3.scale.linear()
-        .range([0,90])
-        .domain([0, 1])
+        .range([height, 0])
+        .domain([0, maxCommits])
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -50,15 +54,12 @@ function drawChart(data) {
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient('left')
-        .ticks(10, '%')
 
     var chart = d3.select('#chart')
         .attr('width', width + margin.left + margin.right )
         .attr('height', height + margin.top + margin.bottom )
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-    color.domain([0,1])
 
     chart.append('g')
         .attr('class', 'x axis')
@@ -73,10 +74,10 @@ function drawChart(data) {
         .attr('y', 6)
         .attr('dy', '.71em')
         .style('text-anchor', 'end')
-        .text('Frequency')
+        .text('# Commits')
 
-    var bar = chart.selectAll('.bar')
-        .data(data)
+    var bar = chart.selectAll('.bar-group')
+        .data(repos)
         .enter()
         .append('g')
         .attr('class', 'bar-group')
@@ -84,15 +85,17 @@ function drawChart(data) {
 
     bar.append('rect')
         .attr('class', 'bar')
-        .attr('y', function(d) { return y(d.value); })
-        .attr('fill', function(d) { return d3.lab(color(d.value),0,0) })
-        .attr('height', function(d) { return height - y(d.value); })
+        // .attr('y', 10)
+        .attr('y', function(d) { console.log(d); return y(d.numCommits); })
+        // .attr('height', height-10)
+        .attr('height', function(d) { return height - y(d.numCommits); })
         .attr('width', x.rangeBand() )
     
     bar.append('text')
         .attr('class', 'test')
         .attr('x', x.rangeBand() /2 )
         .attr('dy', '.75em')
-        .attr('y', function(d) { return y(d.value) - 12; })
-        .text(function(d) {return d.value * 100 + '%'; })
+        .attr('y', function(d) { return y(d.numCommits) - 12; })
+        .text(function(d) {return d.numCommits; })
 }
+
