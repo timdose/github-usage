@@ -20,8 +20,14 @@ router.get('/user/:user', function(req, res) {
     }
 });
 
+
 function fetchLocal(req, res) {
-    res.json([{name:'Tim', value:0.1}, {name:'Charlie', value:0.9}]);
+    require('fs').readFile('data/timdose.json', 'utf8', function(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        res.send(data);
+    });
 }
 
 
