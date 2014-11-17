@@ -8,11 +8,18 @@
         </div>
     </h1>
     <h2>Repos</h2>
-    <ul>
+    <div class="repos">
         {% for repo in repos %}
-            <li><a href="https://github.com/{{repo.full_name}}">{{repo.name}}</a></li>
+            <h3>
+                {{repo.name}}
+                <span class="small">
+                    <a target="_blank" href="https://github.com/{{repo.full_name}}"><span class="glyphicon glyphicon-share"></span></a>
+                </span>
+            </h3>
+
+            <p>Number of commits: {{repo.numCommits}}</p>
         {% endfor %}
-    </ul>
+    </div>
 
     <pre>
         {{repos|stringify}}

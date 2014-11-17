@@ -25,6 +25,11 @@ router.get('/chart', function(req, res) {
 router.get('/user', function(req, res ) {
     var user = req.query.user;
 
+    github.authenticate({
+        type:'oauth',
+        token: '1f2bf0e06e33509c29ec2271cf0d8f5736e0ad3f'
+    });
+
     github.repos.getFromUser({user:user}, function(err, repos ) {
         var data = {
             user: user,
