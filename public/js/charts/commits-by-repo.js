@@ -1,6 +1,8 @@
 
 function drawCommitsByRepoChart(data) {
-    $('#chart').children().remove();
+    var chartSelector = '#commitsByRepoChart';
+
+    $(chartSelector).children().remove();
 
     var repos = data.repos.map(function(repo){
         return {name:repo.name, numCommits: repo.numCommits}
@@ -37,7 +39,7 @@ function drawCommitsByRepoChart(data) {
         .orient('left')
 
 
-    var chart = d3.select('#chart')
+    var chart = d3.select(chartSelector)
         .attr('width', width + margin.left + margin.right )
         .attr('height', height + margin.top + margin.bottom )
         .append('g')
