@@ -20,11 +20,19 @@
             <svg id="commitsByRepoChart"></svg>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Number of Commits Per Week</h2>
+            <svg id="commitsPerWeekChart"></svg>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block js %}
     <script src="/components/d3/d3.min.js"></script>
     <script src="/js/charts/commits-by-repo.js"></script>
+    <script src="/js/charts/commits-per-week.js"></script>
     <script src="/js/main.js"></script>
 {% endblock %}

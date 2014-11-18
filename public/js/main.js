@@ -16,6 +16,7 @@ function fetchData(user) {
     })
     .done( function( data ) {
         drawCommitsByRepoChart(data);
+        drawCommitsPerWeekChart(data);
     })
     .error( function(err) {
         console.log(err);
