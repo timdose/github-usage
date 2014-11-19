@@ -89,7 +89,7 @@ function drawCommitsPerWeekChart(data) {
         .attr('transform', function(d) { return 'translate(0,' + ( height - y(d.name)) + ')'})
 
     bar.append('rect')
-        .attr('class', 'bar')
+        .attr('class', 'bar-default')
         .attr('width', 20)
         .attr('height', y.rangeBand() )
         .attr('y', 0 - y.rangeBand() )

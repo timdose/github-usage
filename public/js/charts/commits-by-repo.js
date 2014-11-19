@@ -5,13 +5,18 @@ function drawCommitsByRepoChart(data) {
     $(chartSelector).children().remove();
 
     var repos = data.repos.map(function(repo){
-        return {name:repo.name, numCommits: repo.numCommits}
+        return { 
+            name:repo.name, 
+            numCommits: repo.numCommits,
+            popularity: repo.watchers_count + repo.stargazers_count + repo.forks_count
+        }
     })
     .filter(function(repo) {
         return repo.numCommits > 0;
     });
 
     var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
+    var reallyPopular = 1000;
 
     var margin = {
         top: 20,
@@ -29,6 +34,14 @@ function drawCommitsByRepoChart(data) {
     var y = d3.scale.ordinal()
         .rangeRoundBands([height,0], .1)
         .domain(repos.map(function(repo) { return repo.name; }));
+
+    var color = d3.scale.linear()
+        .domain([0, reallyPopular])
+        // .domain([0,reallyPopular])
+        // .interpolate(d3.interpolateHsl)
+        .interpolate(d3.interpolateLab)
+        .range(['hsl(210,30%,60%)', '#f00'])
+        // .range(['#000000', '#ffffff'])
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -71,7 +84,8 @@ function drawCommitsByRepoChart(data) {
         .attr('class', 'bar')
         .attr('y', 0 - y.rangeBand() )
         .attr('height', y.rangeBand() )
-        .attr('width', function(d) { return x(d.numCommits) } );
+        .attr('width', function(d) { return x(d.numCommits) } )
+        .attr('fill', function(d) { return color(d.popularity); })
     
     bar.append('text')
         .attr('class', 'amount')
