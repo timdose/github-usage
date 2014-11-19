@@ -22,7 +22,7 @@ router.get('/user/:user', function(req, res) {
 
 
 function fetchLocal(req, res) {
-    require('fs').readFile('data/timdose.json', 'utf8', function(err, data) {
+    require('fs').readFile('data/'+ process.env.GH_USERNAME +'.json', 'utf8', function(err, data) {
         if (err) {
             console.log(err);
         }

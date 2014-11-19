@@ -37,9 +37,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
     if ( process.env.NODE_ENV == 'local' ) {
-        console.log('local dev');
+        console.log('GH_USERNAME:', process.env.GH_USERNAME );
         res.locals.globals = {
-            autoSubmit: true
+            autoSubmit: process.env.GH_USERNAME || 'timdose'
         }
     }
     next();

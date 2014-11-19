@@ -13,7 +13,10 @@ gulp.task('develop', function () {
 
   if (argv.local) {
     console.log('setting Node env to "local"')
-    options.env = { 'NODE_ENV' : 'local' };
+    options.env = { 
+      'NODE_ENV' : 'local', 
+      'GH_USERNAME' : argv.user || 'timdose' 
+    };
   }
 
   nodemon(options).on('restart', function () {
