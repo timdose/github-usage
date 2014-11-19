@@ -38,9 +38,9 @@ function drawCommitsPerWeekChart(data) {
         top: 40,
         right: 30,
         bottom: 50,
-        left: 150
+        left: 120
     }
-    var width = 960 - margin.left - margin.right;
+    var width = 455 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
