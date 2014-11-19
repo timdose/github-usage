@@ -4,8 +4,6 @@ $(document).ready(function() {
         fetchData($('#user').val());
         event.preventDefault();
     });
-
-    $('#form').submit();
 });
 
 

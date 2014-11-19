@@ -37,19 +37,19 @@ function drawCommitsPerWeekChart(data) {
     var margin = {
         top: 40,
         right: 30,
-        bottom: 30,
-        left: 40
+        bottom: 50,
+        left: 150
     }
     var width = 960 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
 
-    var x = d3.scale.ordinal()
-        .rangeRoundBands([0,width], .1)
-        .domain(weeks.map(function(repo) { return repo.name; }));
-
-    var y = d3.scale.linear()
-        .range([height, 0])
+    var x = d3.scale.linear()
+        .range([0, width])
         .domain([0, maxCommits])
+
+    var y = d3.scale.ordinal()
+        .rangeRoundBands([height,0], .1)
+        .domain(weeks.map(function(repo) { return repo.name; }));
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -69,37 +69,37 @@ function drawCommitsPerWeekChart(data) {
     chart.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxis);
-
-    chart.append('g')
-        .attr('class', 'y axis')
-        .call(yAxis)
+        .call(xAxis)
         .append('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('y', -35 )
-        .attr('x', 0- (height/2))
+        .attr('y', 30 )
+        .attr('x', width/2)
         .attr('dy', '.71em')
         .style('text-anchor', 'middle')
         .text('# Commits')
 
+    chart.append('g')
+        .attr('class', 'y axis')
+        .call(yAxis)
+        
     var bar = chart.selectAll('.bar-group')
         .data(weeks)
         .enter()
         .append('g')
         .attr('class', 'bar-group')
-        .attr('transform', function(d) { return 'translate(' + x(d.name) + ',0)'})
+        .attr('transform', function(d) { return 'translate(0,' + ( height - y(d.name)) + ')'})
 
     bar.append('rect')
         .attr('class', 'bar')
-        .attr('y', function(d) { return y(d.numCommits); })
-        .attr('height', function(d) { return height - y(d.numCommits); })
-        .attr('width', x.rangeBand() )
+        .attr('width', 20)
+        .attr('height', y.rangeBand() )
+        .attr('y', 0 - y.rangeBand() )
+        .attr('width', function(d) { return x(d.numCommits) } )
     
     bar.append('text')
-        .attr('class', 'test')
-        .attr('x', x.rangeBand() /2 )
-        .attr('dy', '.75em')
-        .attr('y', function(d) { return y(d.numCommits) - 12; })
+        .attr('class', 'amount')
+        .attr('y', - y.rangeBand() /2 )
+        .attr('dy', '.25em')
+        .attr('x', function(d) { return x(d.numCommits) + 5; })
         .text(function(d) {return d.numCommits; })
 }
 
