@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    $('#input').on('submit', function(event) {
+    $('#form').on('submit', function(event) {
         fetchData($('#user').val());
         event.preventDefault();
     });
