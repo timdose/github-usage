@@ -35,6 +35,16 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+    if ( process.env.NODE_ENV == 'local' ) {
+        console.log('local dev');
+        res.locals.globals = {
+            autoSubmit: true
+        }
+    }
+    next();
+});
+
 app.use('/', routes);
 app.use('/api', api);
 

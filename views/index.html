@@ -35,4 +35,12 @@
     <script src="/js/charts/commits-by-repo.js"></script>
     <script src="/js/charts/commits-per-week.js"></script>
     <script src="/js/main.js"></script>
+
+    {% if globals.autoSubmit %}
+        <script>
+            $(document).ready(function() {
+                $('#form').submit();
+            });
+        </script>
+    {% endif %}
 {% endblock %}
