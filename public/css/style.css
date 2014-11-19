@@ -6,26 +6,26 @@
 }
 
 .bar {
-    /*fill: steelblue;*/
+    fill: #38587c;
 }
 
-.bar-group .test {
-    text-anchor: middle;
-    color: green;
-    font-size: 12px;
+.bar-group .amount {
+    fill: #999;
+    font-size: 11px;
 }
 
 .axis text {
     font: 10px sans-serif;
+    fill: #606060;
 }
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: #000;
+    stroke: #aaa;
     shape-rendering: crispEdges;
 }
 
-.x.axis path {
+.y.axis path {
     display: none;
 }
