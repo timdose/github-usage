@@ -1,23 +1,16 @@
 
 $(document).ready(function() {
     $('#form').on('submit', function(event) {
-        fetchData($('#user').val());
+        Model.fetchData($('#user').val(), function(data) {
+            var commitsPerRepo = Model.getCommitsPerRepo(data);
+            drawCommitsByRepoChart(commitsPerRepo);
+            
+            var commitsPerWeek = Model.getCommitsPerWeek(data);
+            drawCommitsPerWeekChart(commitsPerWeek);
+        });
         event.preventDefault();
     });
 });
 
 
-function fetchData(user) {
-    $.ajax({
-        url: '/api/user/' + user,
-        dataType: 'json'
-    })
-    .done( function( data ) {
-        drawCommitsByRepoChart(data);
-        drawCommitsPerWeekChart(data);
-    })
-    .error( function(err) {
-        console.log(err);
-    });
-}
 

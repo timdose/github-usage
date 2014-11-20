@@ -1,19 +1,8 @@
 
-function drawCommitsByRepoChart(data) {
+function drawCommitsByRepoChart(repos) {
     var chartSelector = '#commitsByRepoChart';
 
     $(chartSelector).children().remove();
-
-    var repos = data.repos.map(function(repo){
-        return { 
-            name:repo.name, 
-            numCommits: repo.numCommits,
-            popularity: repo.watchers_count + repo.stargazers_count + repo.forks_count
-        }
-    })
-    .filter(function(repo) {
-        return repo.numCommits > 0;
-    });
 
     var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
     var popularityScale = [
