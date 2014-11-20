@@ -1,8 +1,6 @@
+(function(exports){
 
-var Model = new function() {
-    var self = this;
-
-    self.getCommitsPerRepo = function(data) {
+    exports.getCommitsPerRepo = function(data) {
         var repos = data.repos.map(function(repo){
             return { 
                 name:repo.name, 
@@ -16,7 +14,7 @@ var Model = new function() {
         return repos;
     }
 
-    self.getCommitsPerWeek = function(data) {
+    exports.getCommitsPerWeek = function(data) {
         var commits = [];
 
         data.repos.forEach(function(repo){
@@ -46,4 +44,7 @@ var Model = new function() {
         return weeks;
     }
 
-}
+})(typeof exports === 'undefined'? this['Model']={}: exports);
+
+
+

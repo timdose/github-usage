@@ -8,8 +8,8 @@ router.get('/', function(req, res) {
 });
 
 
-router.get('/chart', function(req, res) {
-    res.render('chart.html');
+router.get('/test', function(req, res) {
+    res.render('test.html');
 });
 
 module.exports = router;
