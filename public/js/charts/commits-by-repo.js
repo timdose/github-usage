@@ -16,16 +16,24 @@ function drawCommitsByRepoChart(data) {
     });
 
     var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
-    var reallyPopular = 1000;
+    var popularityScale = [
+        {title:'Low', range: '0-199', value:0},
+        {title:'Medium', range: '200-499', value:200},
+        {title:'High', range: '500-999', value:500},
+        {title:'Very High', range: '1000+', value:1000},
+    ];
 
     var margin = {
-        top: 20,
-        right: 30,
-        bottom: 40,
-        left: 120
+        top: 50,
+        right: 70,
+        bottom: 180,
+        left: 140
     }
+
     var width = 455 - margin.left - margin.right;
-    var height = 500 - margin.top - margin.bottom;
+    var height = 600 - margin.top - margin.bottom;
+
+    var swatch = { width: 50, height: 20, margin: 10 };
 
     var x = d3.scale.linear()
         .range([0, width])
@@ -36,12 +44,13 @@ function drawCommitsByRepoChart(data) {
         .domain(repos.map(function(repo) { return repo.name; }));
 
     var color = d3.scale.linear()
-        .domain([0, reallyPopular])
-        // .domain([0,reallyPopular])
-        // .interpolate(d3.interpolateHsl)
-        .interpolate(d3.interpolateLab)
+        .domain([0, d3.max(popularityScale, function(d) { return d.value } )])
+        .interpolate(d3.interpolateRgb)
         .range(['hsl(210,30%,60%)', '#f00'])
-        // .range(['#000000', '#ffffff'])
+
+    var popularity = d3.scale.ordinal()
+        .rangeRoundBands([0,width], .1)
+        .domain(popularityScale.map(function(popularityType) {return popularityType.name;} ))
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -51,6 +60,9 @@ function drawCommitsByRepoChart(data) {
         .scale(y)
         .orient('left')
 
+    var colorKeyAxis = d3.svg.axis()
+        .scale(popularity)
+        .orient('bottom')
 
     var chart = d3.select(chartSelector)
         .attr('width', width + margin.left + margin.right )
@@ -71,7 +83,45 @@ function drawCommitsByRepoChart(data) {
     chart.append('g')
         .attr('class', 'y axis')
         .call(yAxis)
-        
+
+    var colorKey = chart.append('g')
+        .attr('class', 'color-key')
+        .attr('transform', 'translate(0,'+(height+70)+')')
+        .append('text')
+        .attr('class', 'h5')
+        .text('Popularity')
+        .append('tspan')
+        .attr('class', 'small')
+        .text(' (follows + stars + forks)')
+
+    var colorKeyGroup = chart.select('.color-key')
+        .selectAll('.color-key-group')
+        .data(popularityScale)
+        .enter()
+        .append('g')
+        .attr('class', 'color-key-group')
+        .attr('transform', function(d, i) { 
+            return 'translate(' + (i*(swatch.width+swatch.margin))+ ','+ swatch.margin+')' 
+        });
+
+    colorKeyGroup.append('rect')
+        .attr('fill', function(d) { return color(d.value); })
+        .attr('width', swatch.width)
+        .attr('height', swatch.height)
+
+    colorKeyGroup.append('text')
+        .attr('class', 'level')
+        .attr('dx', swatch.width)
+        .attr('dy', '1em')
+        .attr('y', swatch.height)
+        .text(function(d) { return d.title })
+        .append('tspan')
+        .attr('x', 0)
+        .attr('dx', swatch.width)
+        .attr('style', 'text-anchor:middle')
+        .attr('dy', '1.1em')
+        .text(function(d) { return '(' + d.range + ')' })
+
 
     var bar = chart.selectAll('.bar-group')
         .data(repos)

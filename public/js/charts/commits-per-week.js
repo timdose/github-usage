@@ -35,13 +35,13 @@ function drawCommitsPerWeekChart(data) {
     var maxCommits = d3.max(weeks, function(d){ return +d.numCommits });
 
     var margin = {
-        top: 40,
-        right: 30,
-        bottom: 50,
+        top: 50,
+        right: 50,
+        bottom: 100,
         left: 120
     }
     var width = 455 - margin.left - margin.right;
-    var height = 500 - margin.top - margin.bottom;
+    var height = 600 - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
         .range([0, width])

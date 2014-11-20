@@ -1,8 +1,9 @@
 
 /* Chart styles */
 
-.chart {
-    border: 1px solid rgba(0,0,0,.25)
+.canvas {
+    border: 1px solid #ccc;
+    margin-bottom: 40px;
 }
 
 .bar-default {
@@ -11,11 +12,11 @@
 
 .bar-group .amount {
     fill: #999;
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .axis text {
-    font: 10px sans-serif;
+    font-size: 10px;
     fill: #606060;
 }
 
@@ -25,6 +26,14 @@
     stroke: #aaa;
     shape-rendering: crispEdges;
 }
+
+.color-key .level {
+    text-anchor: middle;
+    fill: #606060;
+    font-size: 11px;
+}
+
+
 
 .y.axis path {
     display: none;
