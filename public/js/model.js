@@ -2,19 +2,6 @@
 var Model = new function() {
     var self = this;
 
-    self.fetchData = function (user, callback) {
-        $.ajax({
-            url: '/api/user/' + user,
-            dataType: 'json'
-        })
-        .done( function( data ) {
-            callback(data);
-        })
-        .error( function(err) {
-            console.log(err);
-        });
-    }
-
     self.getCommitsPerRepo = function(data) {
         var repos = data.repos.map(function(repo){
             return { 
