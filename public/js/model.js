@@ -37,10 +37,10 @@ var Model = new function() {
             .rollup(function(values) { return values.length; })
             .entries(commits)
             .map(function(week) {
-                return {name:week.key, numCommits: week.values };
+                return {date:week.key, numCommits: week.values };
             })
             .sort(function(a, b) {
-                return new Date(a.name) - new Date(b.name);
+                return new Date(a.date) - new Date(b.date);
             });
 
         return weeks;

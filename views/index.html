@@ -18,6 +18,9 @@
         <div class="col-md-12">
             <h2>Number of Commits</h2>
         </div>
+        <div class="col-md-12">
+            <svg id="recentCommitsChart" class="canvas"></svg>
+        </div>
         <div class="col-md-6">
             <h3>Per Repo</h3>
             <svg id="commitsByRepoChart" class="canvas"></svg>
@@ -35,6 +38,7 @@
     <script src="/js/model.js"></script>
     <script src="/js/charts/commits-by-repo.js"></script>
     <script src="/js/charts/commits-per-week.js"></script>
+    <script src="/js/charts/commits-recent.js"></script>
     <script src="/js/main.js"></script>
 
     {% if globals.autoSubmit %}

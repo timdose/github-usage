@@ -23,7 +23,7 @@ function drawCommitsPerWeekChart(weeks) {
 
     var y = d3.scale.ordinal()
         .rangeRoundBands([height,0], .1)
-        .domain(weeks.map(function(repo) { return repo.name; }));
+        .domain(weeks.map(function(week) { return week.date; }));
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -60,7 +60,7 @@ function drawCommitsPerWeekChart(weeks) {
         .enter()
         .append('g')
         .attr('class', 'bar-group')
-        .attr('transform', function(d) { return 'translate(0,' + ( height - y(d.name)) + ')'})
+        .attr('transform', function(d) { return 'translate(0,' + ( height - y(d.date)) + ')'})
 
     bar.append('rect')
         .attr('class', 'bar-default')

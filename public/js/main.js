@@ -11,6 +11,8 @@ $(document).ready(function() {
             
             var commitsPerWeek = Model.getCommitsPerWeek(data);
             drawCommitsPerWeekChart(commitsPerWeek);
+            
+            drawRecentCommitsChart(commitsPerWeek);
         })
         .error( function(err) {
             console.log(err);

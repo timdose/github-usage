@@ -34,6 +34,12 @@
 }
 
 
+.graph-line {
+    fill: none;
+    stroke: #7A99B8;
+    stroke-width: 3px;
+}
+
 
 .y.axis path {
     display: none;
