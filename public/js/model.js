@@ -83,7 +83,7 @@ var Model = new function() {
 
     // This could be modified to accept a Date object or parseable date string
     self.getWeek = function(inputDate) {
-        var d = inputDate instanceof Date? inputDate : new Date(inputDate);
+        var d = inputDate instanceof Date? inputDate : getLocalDate(inputDate);
         // Should handle time zone stuff correctly here...
         var day = d.getDay();
         var sunday = new Date(d.setDate(d.getDate()-day));
@@ -107,14 +107,12 @@ var Model = new function() {
 
     self.getPastWeeks = function(startDate, numWeeks) {
         var iWeek = self.getWeek(startDate);
-        // var startWeek = self.changeWeek(finalWeek, - (numWeeks - 1) );
         var result = [iWeek];
         for ( i = 1; i < numWeeks; i ++ ) {
             var iWeek = self.changeWeek(iWeek, -1);
             result.push(iWeek);
         }
         return result;
-        // return self.getWeeksInPeriod([startWeek, finalWeek]);
     }
 
 }
