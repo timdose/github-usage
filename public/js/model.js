@@ -51,20 +51,13 @@ var Model = new function() {
         return formatted;
     }
 
-    self.incrementWeek = function(formattedDate) {
-        var dateFormat = d3.time.format('%Y-%m-%d');
-        var d = dateFormat.parse(formattedDate);
-        var incremented = new Date(d.setDate(d.getDate() + 7) );
-        return dateFormat(incremented);
-    }
-
-    self.decrementWeek = function(formattedDate, numWeeks) {
+    self.changeWeek = function(formattedDate, numWeeks) {
         if ( numWeeks === undefined ) {
             numWeeks = 1;
         }
         var dateFormat = d3.time.format('%Y-%m-%d');
         var d = dateFormat.parse(formattedDate);
-        var incremented = new Date(d.setDate(d.getDate() - (7*numWeeks)) );
+        var incremented = new Date(d.setDate(d.getDate() + (7*numWeeks)) );
         return dateFormat(incremented);
     }
 
@@ -81,23 +74,14 @@ var Model = new function() {
 
         while( currentWeek != endWeek ) {
             result.push(currentWeek);
-            currentWeek = self.incrementWeek(currentWeek);
+            currentWeek = self.changeWeek(currentWeek, 1);
             if ( currentWeek == endWeek ) {
                 result.push(currentWeek);
             }
         }
 
-
-        // var weekFormat = d3.time.format('%U');
-        // var yearWeekFormat = d3.time.format('%Y-%U');
-        // var endFormat = d3.time.format('%Y-%m-%d');
-
-        // var startWeekDate = new Date( startWeek );
-        // var endWeekDate = new Date( endWeek );
-
         var startDateObject = new Date(startDate);
 
-        // return ['2014-10-26', '2014-11-02', '2014-11-09', '2014-11-16'];
         return result;
     }
 

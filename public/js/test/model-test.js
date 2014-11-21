@@ -81,64 +81,51 @@ describe('Model', function() {
     })
 
 
-    describe('increment week', function() {
-        it('should increment week in the expected YYYY-MM-DD format', function() {
-            var dates = [
-                {input: '2014-01-01', expected: '2014-01-08' },
-                {input: '2014-01-02', expected: '2014-01-09' },
-                {input: '2013-12-31', expected: '2014-01-07' },
-                {input: '2014-02-27', expected: '2014-03-06' },
-            ]
 
-            dates.forEach(function(date){
-                input = date.input;
-                expected = date.expected;
-                result = Model.incrementWeek(input);
-                expect(result).to.equal(expected);
-            });
-        });
-    });
+    describe('change week', function() {
+        var input, result, expected;
 
-
-    describe('decrement week', function() {
-        it('should decrement week in the expected YYYY-MM-DD format', function() {
-            var dates = [
-                {input: '2014-01-08', expected: '2014-01-01' },
-                {input: '2014-01-09', expected: '2014-01-02' },
-                {input: '2014-01-07', expected: '2013-12-31' },
-                {input: '2014-03-06', expected: '2014-02-27' },
-            ]
-
-            dates.forEach(function(date){
-                input = date.input;
-                expected = date.expected;
-                result = Model.decrementWeek(input);
-                expect(result).to.equal(expected);
-            });
+        afterEach(function() {
+          if (this.currentTest.state == 'failed') {
+            console.log('\n', this.currentTest.title, '\n-----------------');
+            console.log('input: ', input );
+            console.log('result: ', result );
+            console.log('expected: ', expected );
+          }
         });
 
 
-        it('should decrement by a lot of weeks', function() {
-            afterEach(function() {
-              if (this.currentTest.state == 'failed') {
-                console.log('\n', this.currentTest.title, '\n-----------------');
-                console.log('input: ', input );
-                console.log('result: ', result );
-                console.log('expected: ', expected );
-              }
-            });
+        it('should decrement by some number of weeks', function() {
 
             var dates = [
-                {input: { date: '2014-01-08', decrement: 1 }, expected: '2014-01-01' },
-                {input: { date: '2014-01-08', decrement: 2 }, expected: '2013-12-25' },
-                {input: { date: '2014-01-08', decrement: 12 }, expected: '2013-10-16' },
+                {input: { date: '2014-01-08', increment: -1 }, expected: '2014-01-01' },
+                {input: { date: '2014-01-08', increment: -2 }, expected: '2013-12-25' },
+                {input: { date: '2014-01-08', increment: -12 }, expected: '2013-10-16' },
             ]
 
             dates.forEach(function(date){
                 inputDate = date.input.date;
-                inputDecrement = date.input.decrement;
+                inputIncrement = date.input.increment;
                 expected = date.expected;
-                result = Model.decrementWeek(inputDate, inputDecrement);
+                result = Model.changeWeek(inputDate, inputIncrement);
+                expect(result).to.equal(expected);
+            });
+        });
+
+
+        it('should increment by some number of weeks', function() {
+
+            var dates = [
+                {input: { date: '2014-01-01', increment: 1 },  expected: '2014-01-08' },
+                {input: { date: '2013-12-25', increment: 2 },  expected: '2014-01-08' },
+                {input: { date: '2013-10-16', increment: 12 }, expected: '2014-01-08' },
+            ]
+
+            dates.forEach(function(date){
+                inputDate = date.input.date;
+                inputIncrement = date.input.increment;
+                expected = date.expected;
+                result = Model.changeWeek(inputDate, inputIncrement);
                 expect(result).to.equal(expected);
             });
         });
