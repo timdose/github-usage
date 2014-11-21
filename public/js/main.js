@@ -18,8 +18,10 @@ function fetchData(user) {
         
         var commitsPerWeek = Model.getCommitsPerWeek(data);
         drawCommitsPerWeekChart(commitsPerWeek);
+
+        var recentCommits = Model.getCommitsOverPastWeeks(commitsPerWeek, new Date(), 12 );
         
-        drawRecentCommitsChart(commitsPerWeek);
+        drawRecentCommitsChart(recentCommits);
     })
     .error( function(err) {
         console.log(err);
