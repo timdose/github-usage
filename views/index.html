@@ -14,20 +14,19 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row results">
+        <hr>
+        
         <div class="col-md-12">
-            <h2>Number of Commits</h2>
+            <h2 class="username"></h2>
         </div>
         <div class="col-md-12">
+            <h3>Number of Total Commits Over Past 12 Weeks</h3>
             <svg id="recentCommitsChart" class="canvas"></svg>
         </div>
-        <div class="col-md-6">
-            <h3>Per Repo</h3>
+        <div class="col-md-12">
+            <h3>Number of Commits Per Repo</h3>
             <svg id="commitsByRepoChart" class="canvas"></svg>
-        </div>
-        <div class="col-md-6">
-            <h3>Per Week</h3>
-            <svg id="commitsPerWeekChart" class="canvas"></svg>
         </div>
     </div>
 {% endblock %}
@@ -36,7 +35,6 @@
 {% block js %}
     <script src="/js/model.js"></script>
     <script src="/js/charts/commits-by-repo.js"></script>
-    <script src="/js/charts/commits-per-week.js"></script>
     <script src="/js/charts/commits-recent.js"></script>
     <script src="/js/main.js"></script>
 

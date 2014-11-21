@@ -1,4 +1,8 @@
 
+.results {
+    display: none;
+}
+
 /* Chart styles */
 
 .canvas {

@@ -19,7 +19,7 @@ function drawCommitsByRepoChart(repos) {
         left: 140
     }
 
-    var width = 455 - margin.left - margin.right;
+    var width = 960 - margin.left - margin.right;
     var height = 600 - margin.top - margin.bottom;
 
     var swatch = { width: 50, height: 20, margin: 10 };
