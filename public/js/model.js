@@ -15,7 +15,7 @@ var Model = new function() {
         });
         return repos;
     }
-    
+
 
     self.getCommitsPerWeek = function(data) {
         var commits = [];
@@ -65,28 +65,16 @@ var Model = new function() {
     }
 
 
-    self.getWeeksInPeriod = function(dateRange) {
-        var startDate = dateRange[0];
-        var endDate = dateRange[1];
-
-        var startWeek = self.getWeek(startDate);
-        var endWeek = self.getWeek(endDate);
-
-
-        var currentWeek = startWeek;
-        var result = [];
-
-        while( currentWeek != endWeek ) {
-            result.push(currentWeek);
-            currentWeek = self.changeWeek(currentWeek, 1);
-            if ( currentWeek == endWeek ) {
-                result.push(currentWeek);
-            }
+    self.getPastWeeks = function(startDate, numWeeks) {
+        var iWeek = self.getWeek(startDate);
+        // var startWeek = self.changeWeek(finalWeek, - (numWeeks - 1) );
+        var result = [iWeek];
+        for ( i = 1; i < numWeeks; i ++ ) {
+            var iWeek = self.changeWeek(iWeek, -1);
+            result.push(iWeek);
         }
-
-        var startDateObject = new Date(startDate);
-
         return result;
+        // return self.getWeeksInPeriod([startWeek, finalWeek]);
     }
 
 }

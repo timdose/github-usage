@@ -16,7 +16,7 @@ describe('Model', function() {
 
 
 
-    describe('getWeek()', function() {
+    describe('.getWeek()', function() {
         afterEach(function() {
           if (this.currentTest.state == 'failed') {
             console.log('\n', this.currentTest.title, '\n-----------------');
@@ -54,7 +54,7 @@ describe('Model', function() {
 
 
 
-    describe('Commits per Week', function() {
+    describe('.getCommitsPerWeek()', function() {
         before(function(done) {
             $.ajax({
                 url: '/js/test/data/recent-commits-expected.json',
@@ -82,7 +82,7 @@ describe('Model', function() {
 
 
 
-    describe('change week', function() {
+    describe('.changeWeek()', function() {
         var input, result, expected;
 
         afterEach(function() {
@@ -132,7 +132,10 @@ describe('Model', function() {
     });
 
 
-    describe('Commits per week over period' , function () {
+
+    describe('.getPastWeeks()', function() {
+        var input, result, expected;
+
         afterEach(function() {
           if (this.currentTest.state == 'failed') {
             console.log('\n', this.currentTest.title, '\n-----------------');
@@ -143,17 +146,46 @@ describe('Model', function() {
         });
 
 
-        it('should return every week over a given period', function () {
-            input = ['2014-11-01', '2014-11-21'];
-            expected = ['2014-10-26', '2014-11-02', '2014-11-09', '2014-11-16'];
-            result = Model.getWeeksInPeriod(input);
-            expect(result).to.deep.equal(expected);
-            
-            input = ['2014-09-01', '2014-11-14'];
-            expected = ['2014-08-31', '2014-09-07', '2014-09-14', '2014-09-21', '2014-09-28', '2014-10-05', '2014-10-12', '2014-10-19', '2014-10-26', '2014-11-02', '2014-11-09'];
-            result = Model.getWeeksInPeriod(input);
-            expect(result).to.deep.equal(expected);
+        it('should get past N weeks', function() {
+
+            var cases = [
+                { 
+                    input: { date: '2014-11-20', numWeeks: 12 }, 
+                    expected: [
+                        '2014-11-16',
+                        '2014-11-09',
+                        '2014-11-02',
+                        '2014-10-26',
+                        '2014-10-19',
+                        '2014-10-12',
+                        '2014-10-05',
+                        '2014-09-28',
+                        '2014-09-21',
+                        '2014-09-14',
+                        '2014-09-07',
+                        '2014-08-31'
+                    ]
+                },
+                { 
+                    input: { date: '2014-11-10', numWeeks: 3 }, 
+                    expected: [
+                        '2014-11-09',
+                        '2014-11-02',
+                        '2014-10-26'
+                    ]
+                }
+            ]
+
+            cases.forEach(function(thisCase){
+                input = thisCase.input;
+                inputDate = input.date;
+                numWeeks = input.numWeeks;
+                expected = thisCase.expected;
+                result = Model.getPastWeeks(inputDate, numWeeks);
+                expect(result).to.deep.equal(expected);
+            });
         });
     });
+
 
 })
