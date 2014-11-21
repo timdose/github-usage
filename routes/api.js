@@ -54,7 +54,8 @@ function fetchFromApi(req, res, next) {
             github.repos.getCommits({
                 user: repo.owner.login,
                 repo: repo.name,
-                author: user
+                author: user,
+                per_page: 100
             }, function( err, commits ) {
                 if (err) {
                     console.log(err);

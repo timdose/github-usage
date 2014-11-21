@@ -7,7 +7,7 @@ function drawRecentCommitsChart(commits) {
     //--------------------------------------------------------------------
     // Set margins + size
     //--------------------------------------------------------------------
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    var margin = {top: 50, right: 50, bottom: 60, left: 60},
     width = 960 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
