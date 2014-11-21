@@ -26,13 +26,7 @@ var Model = new function() {
 
         var weeks = d3.nest()
             .key(function(commit){
-                var d = new Date(commit.commit.author.date);
-                var day = d.getDay();
-                var sunday = new Date(d.setDate(d.getDate()-day));
-                var month = ('00' + (sunday.getMonth()+1)).substr(-2,2);
-                var date = ('00' + sunday.getDate()).substr(-2,2);
-                var formatted = [sunday.getFullYear(),month,date].join('-')
-                return formatted;
+                return self.getWeek(commit.commit.author.date);
             })
             .rollup(function(values) { return values.length; })
             .entries(commits)
@@ -40,10 +34,21 @@ var Model = new function() {
                 return {date:week.key, numCommits: week.values };
             })
             .sort(function(a, b) {
-                return new Date(a.date) - new Date(b.date);
+                return new Date(b.date) - new Date(a.date);
             });
 
         return weeks;
+    }
+
+    self.getWeek = function(parseableDateStamp) {
+        var d = new Date(parseableDateStamp);
+        // Should handle time zone stuff correctly here...
+        var day = d.getDay();
+        var sunday = new Date(d.setDate(d.getDate()-day));
+        var month = ('0' + (sunday.getMonth()+1)).substr(-2,2);
+        var date = ('0' + sunday.getDate()).substr(-2,2);
+        var formatted = [sunday.getFullYear(),month,date].join('-')
+        return formatted;
     }
 
 }

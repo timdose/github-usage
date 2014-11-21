@@ -1,3 +1,22 @@
 [
-    {"message":"howdy"}
+    {
+      "date": "2014-11-16",
+      "numCommits": 3
+    },
+    {
+      "date": "2014-11-09",
+      "numCommits": 1
+    },
+    {
+      "date": "2014-10-19",
+      "numCommits": 1
+    },
+    {
+      "date": "2014-10-05",
+      "numCommits": 1
+    },
+    {
+      "date": "2014-09-21",
+      "numCommits": 2
+    }
 ]

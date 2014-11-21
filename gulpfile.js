@@ -8,7 +8,7 @@ gulp.task('develop', function () {
 
   var options = {
     script: 'bin/www',
-    ext: 'js html tsv css',
+    ext: 'js html css json',
   }
 
   if (argv.local) {
