@@ -1,4 +1,17 @@
 
+
+function getLocalDate(dateString) {
+    if ( dateString === undefined ) {
+        d = new Date();
+    } else {
+        d = new Date(dateString);
+    }
+
+    var timezoneOffset = d.getTimezoneOffset()/60;
+    return new Date(d.setHours(d.getHours() + timezoneOffset));
+}
+
+
 var Model = new function() {
     var self = this;
 

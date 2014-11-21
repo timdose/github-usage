@@ -2,6 +2,36 @@ var expect = chai.expect;
 
 
 
+describe('getLocalDate()', function() {
+    var input, expected, result;
+
+    afterEach(function() {
+      if (this.currentTest.state == 'failed') {
+        console.log('\n', this.currentTest.title, '\n-----------------');
+        console.log('input: ', input );
+        console.log('result: ', result );
+        console.log('expected: ', expected );
+      }
+    });
+
+    it('should return a Date string in the current time zone', function() {
+        var cases = [
+            { input: '2014-11-15T02:20:12Z', expected: new Date(2014,10,15,2,20,12)},
+            { input: '2014-11-16T02:20:12Z', expected: new Date(2014,10,16,2,20,12)},
+            { input: '2014-11-16T18:20:12Z', expected: new Date(2014,10,16,18,20,12)},
+            { input: '2014-11-09T02:20:12Z', expected: new Date(2014,10,9,2,20,12)}
+        ]
+
+        cases.forEach(function(thisCase){
+            input = thisCase.input;
+            expected = thisCase.expected;
+            result = getLocalDate(input);
+            expect(result).to.deep.equal(expected);
+        });
+    });
+});
+
+
 
 
 describe('Model', function() {
