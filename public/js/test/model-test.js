@@ -1,5 +1,9 @@
 var expect = chai.expect;
 
+
+
+
+
 describe('Model', function() {
     var data, input, expected, result;
 
@@ -14,17 +18,19 @@ describe('Model', function() {
         })
     });
 
+    afterEach(function() {
+      if (this.currentTest.state == 'failed') {
+        console.log('\n', this.currentTest.title, '\n-----------------');
+        console.log('input: ', input );
+        console.log('result: ', result );
+        console.log('expected: ', expected );
+      }
+    });
+
 
 
     describe('.getWeek()', function() {
-        afterEach(function() {
-          if (this.currentTest.state == 'failed') {
-            console.log('\n', this.currentTest.title, '\n-----------------');
-            console.log('input: ', input );
-            console.log('result: ', result );
-            console.log('expected: ', expected );
-          }
-        });
+        
 
         it('should correctly give the week as the date of the most recent Sunday in format YYYY-MM-DD', function () {
             var dates = [
@@ -66,14 +72,6 @@ describe('Model', function() {
             })
         });
 
-        afterEach(function() {
-          if (this.currentTest.state == 'failed') {
-            console.log('\n', this.currentTest.title, '\n-----------------');
-            console.log('result: ', result );
-            console.log('expected: ', expected );
-          }
-        });
-
         it ('should group commits by week and total them', function() {
             result = Model.getCommitsPerWeek(data);
             expect(result).to.deep.equal(expected);
@@ -84,16 +82,6 @@ describe('Model', function() {
 
     describe('.changeWeek()', function() {
         var input, result, expected;
-
-        afterEach(function() {
-          if (this.currentTest.state == 'failed') {
-            console.log('\n', this.currentTest.title, '\n-----------------');
-            console.log('input: ', input );
-            console.log('result: ', result );
-            console.log('expected: ', expected );
-          }
-        });
-
 
         it('should decrement by some number of weeks', function() {
 
@@ -135,16 +123,6 @@ describe('Model', function() {
 
     describe('.getPastWeeks()', function() {
         var input, result, expected;
-
-        afterEach(function() {
-          if (this.currentTest.state == 'failed') {
-            console.log('\n', this.currentTest.title, '\n-----------------');
-            console.log('input: ', input );
-            console.log('result: ', result );
-            console.log('expected: ', expected );
-          }
-        });
-
 
         it('should get past N weeks', function() {
 
