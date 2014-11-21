@@ -30,7 +30,6 @@ describe('Model', function() {
 
 
     describe('.getWeek()', function() {
-        
 
         it('should correctly give the week as the date of the most recent Sunday in format YYYY-MM-DD', function () {
             var dates = [
@@ -61,6 +60,7 @@ describe('Model', function() {
 
 
     describe('.getCommitsPerWeek()', function() {
+
         before(function(done) {
             $.ajax({
                 url: '/js/test/data/recent-commits-expected.json',
@@ -80,8 +80,54 @@ describe('Model', function() {
 
 
 
+    describe('.getCommitsOverPastWeeks()', function() {
+
+        before(function(done) {
+            $.ajax({
+                url: '/js/test/data/commits-over-period-expected.json',
+                dataType: 'json'
+            })
+            .done( function( result ) {
+                expected = result;
+                done();
+            })
+        });
+
+
+        it ('should give commits over past N weeks with 0 as count for weeks with no commits', function() {
+            input = {
+                numWeeks: 12,
+                commits: [
+                    {
+                      "date": "2014-11-16",
+                      "numCommits": 3
+                    },
+                    {
+                      "date": "2014-11-09",
+                      "numCommits": 1
+                    },
+                    {
+                      "date": "2014-10-19",
+                      "numCommits": 1
+                    },
+                    {
+                      "date": "2014-10-05",
+                      "numCommits": 1
+                    },
+                    {
+                      "date": "2014-09-21",
+                      "numCommits": 2
+                    }
+                ]
+            }
+            result = Model.getCommitsOverPastWeeks(input.commits, '2014-11-18', input.numWeeks );
+            expect(result).to.deep.equal(expected);
+        })
+    })
+
+
+
     describe('.changeWeek()', function() {
-        var input, result, expected;
 
         it('should decrement by some number of weeks', function() {
 
@@ -122,7 +168,6 @@ describe('Model', function() {
 
 
     describe('.getPastWeeks()', function() {
-        var input, result, expected;
 
         it('should get past N weeks', function() {
 

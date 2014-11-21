@@ -42,6 +42,28 @@ var Model = new function() {
     }
 
 
+
+    self.getCommitsOverPastWeeks = function( commitsByWeek, startDate, numWeeks ) {
+        var rangeWeeks = self.getPastWeeks(startDate, numWeeks );
+
+        var result = [];
+
+        // blah—this could be way more efficient
+        rangeWeeks.forEach(function(rangeWeek) {
+            var obj = {date:rangeWeek, numCommits:0};
+            commitsByWeek.forEach(function(week) {
+                if ( week.date == rangeWeek ) {
+                    obj.numCommits = week.numCommits
+                }
+            });
+
+            result.push(obj);
+        });
+
+        return result;
+    }
+
+
     self.getWeek = function(parseableDateStamp) {
         var d = new Date(parseableDateStamp);
         // Should handle time zone stuff correctly here...
