@@ -15,6 +15,7 @@ var Model = new function() {
         });
         return repos;
     }
+    
 
     self.getCommitsPerWeek = function(data) {
         var commits = [];
@@ -40,6 +41,7 @@ var Model = new function() {
         return weeks;
     }
 
+
     self.getWeek = function(parseableDateStamp) {
         var d = new Date(parseableDateStamp);
         // Should handle time zone stuff correctly here...
@@ -51,6 +53,7 @@ var Model = new function() {
         return formatted;
     }
 
+
     self.changeWeek = function(formattedDate, numWeeks) {
         if ( numWeeks === undefined ) {
             numWeeks = 1;
@@ -60,6 +63,7 @@ var Model = new function() {
         var incremented = new Date(d.setDate(d.getDate() + (7*numWeeks)) );
         return dateFormat(incremented);
     }
+
 
     self.getWeeksInPeriod = function(dateRange) {
         var startDate = dateRange[0];
