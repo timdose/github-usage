@@ -12,6 +12,9 @@ var Model = new function() {
         })
         .filter(function(repo) {
             return repo.numCommits > 0;
+        })
+        .sort(function(a, b) {
+            return b.numCommits - a.numCommits;
         });
         return repos;
     }
