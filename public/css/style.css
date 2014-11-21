@@ -1,6 +1,12 @@
 
-.results {
+
+.results,
+.message {
     display: none;
+}
+
+.message {
+    margin-top: 40px;
 }
 
 /* Chart styles */

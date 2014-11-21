@@ -31,7 +31,7 @@ function fetchLocal(req, res) {
 }
 
 
-function fetchFromApi(req, res) {
+function fetchFromApi(req, res, next) {
     var user = req.params.user;
 
     github.authenticate({
@@ -40,6 +40,10 @@ function fetchFromApi(req, res) {
     });
 
     github.repos.getFromUser({user:user}, function(err, repos ) {
+        if ( repos === undefined ) {
+            return res.json({user:user, repos:[]});
+        }
+
         var data = {
             user: user,
             repos: repos,
