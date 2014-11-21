@@ -55,6 +55,22 @@ describe('Model', function() {
             });
             
         });
+
+        it('should accept a parseable date string or a Date object', function () {
+            var dates = [
+                { input: '2014-11-17T02:20:12Z', expected: '2014-11-16'},
+                { input: new Date('2014-11-17T02:20:12Z'), expected: '2014-11-16'},
+
+            ]
+
+            dates.forEach(function(date){
+                input = date.input;
+                expected = date.expected;
+                result = Model.getWeek(input);
+                expect(result).to.equal(expected);
+            });
+            
+        });
     });
 
 
@@ -116,6 +132,10 @@ describe('Model', function() {
                     },
                     {
                       "date": "2014-09-21",
+                      "numCommits": 2
+                    },
+                    {
+                      "date": "2014-03-16",
                       "numCommits": 2
                     }
                 ]
