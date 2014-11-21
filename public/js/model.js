@@ -58,6 +58,16 @@ var Model = new function() {
         return dateFormat(incremented);
     }
 
+    self.decrementWeek = function(formattedDate, numWeeks) {
+        if ( numWeeks === undefined ) {
+            numWeeks = 1;
+        }
+        var dateFormat = d3.time.format('%Y-%m-%d');
+        var d = dateFormat.parse(formattedDate);
+        var incremented = new Date(d.setDate(d.getDate() - (7*numWeeks)) );
+        return dateFormat(incremented);
+    }
+
     self.getWeeksInPeriod = function(dateRange) {
         var startDate = dateRange[0];
         var endDate = dateRange[1];

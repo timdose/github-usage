@@ -100,6 +100,51 @@ describe('Model', function() {
     });
 
 
+    describe('decrement week', function() {
+        it('should decrement week in the expected YYYY-MM-DD format', function() {
+            var dates = [
+                {input: '2014-01-08', expected: '2014-01-01' },
+                {input: '2014-01-09', expected: '2014-01-02' },
+                {input: '2014-01-07', expected: '2013-12-31' },
+                {input: '2014-03-06', expected: '2014-02-27' },
+            ]
+
+            dates.forEach(function(date){
+                input = date.input;
+                expected = date.expected;
+                result = Model.decrementWeek(input);
+                expect(result).to.equal(expected);
+            });
+        });
+
+
+        it('should decrement by a lot of weeks', function() {
+            afterEach(function() {
+              if (this.currentTest.state == 'failed') {
+                console.log('\n', this.currentTest.title, '\n-----------------');
+                console.log('input: ', input );
+                console.log('result: ', result );
+                console.log('expected: ', expected );
+              }
+            });
+
+            var dates = [
+                {input: { date: '2014-01-08', decrement: 1 }, expected: '2014-01-01' },
+                {input: { date: '2014-01-08', decrement: 2 }, expected: '2013-12-25' },
+                {input: { date: '2014-01-08', decrement: 12 }, expected: '2013-10-16' },
+            ]
+
+            dates.forEach(function(date){
+                inputDate = date.input.date;
+                inputDecrement = date.input.decrement;
+                expected = date.expected;
+                result = Model.decrementWeek(inputDate, inputDecrement);
+                expect(result).to.equal(expected);
+            });
+        });
+    });
+
+
     describe('Commits per week over period' , function () {
         afterEach(function() {
           if (this.currentTest.state == 'failed') {
