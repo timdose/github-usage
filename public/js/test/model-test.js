@@ -80,4 +80,48 @@ describe('Model', function() {
         })
     })
 
+
+    describe('increment week', function() {
+        it('should increment week in the expected YYYY-MM-DD format', function() {
+            var dates = [
+                {input: '2014-01-01', expected: '2014-01-08' },
+                {input: '2014-01-02', expected: '2014-01-09' },
+                {input: '2013-12-31', expected: '2014-01-07' },
+                {input: '2014-02-27', expected: '2014-03-06' },
+            ]
+
+            dates.forEach(function(date){
+                input = date.input;
+                expected = date.expected;
+                result = Model.incrementWeek(input);
+                expect(result).to.equal(expected);
+            });
+        });
+    });
+
+
+    describe('Commits per week over period' , function () {
+        afterEach(function() {
+          if (this.currentTest.state == 'failed') {
+            console.log('\n', this.currentTest.title, '\n-----------------');
+            console.log('input: ', input );
+            console.log('result: ', result );
+            console.log('expected: ', expected );
+          }
+        });
+
+
+        it('should return every week over a given period', function () {
+            input = ['2014-11-01', '2014-11-21'];
+            expected = ['2014-10-26', '2014-11-02', '2014-11-09', '2014-11-16'];
+            result = Model.getWeeksInPeriod(input);
+            expect(result).to.deep.equal(expected);
+            
+            input = ['2014-09-01', '2014-11-14'];
+            expected = ['2014-08-31', '2014-09-07', '2014-09-14', '2014-09-21', '2014-09-28', '2014-10-05', '2014-10-12', '2014-10-19', '2014-10-26', '2014-11-02', '2014-11-09'];
+            result = Model.getWeeksInPeriod(input);
+            expect(result).to.deep.equal(expected);
+        });
+    });
+
 })
