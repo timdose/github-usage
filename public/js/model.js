@@ -83,7 +83,7 @@ var Model = new function() {
 
     // This could be modified to accept a Date object or parseable date string
     self.getWeek = function(inputDate) {
-        var d = inputDate instanceof Date? inputDate : new Date(inputDate);
+        var d = inputDate instanceof Date? inputDate : getLocalDate(inputDate);
         // Should handle time zone stuff correctly here...
         var day = d.getDay();
         var sunday = new Date(d.setDate(d.getDate()-day));
