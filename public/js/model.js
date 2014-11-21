@@ -4,17 +4,18 @@ var Model = new function() {
 
     self.getCommitsPerRepo = function(data) {
         var repos = data.repos.map(function(repo){
-            return { 
+            var result = { 
                 name:repo.name, 
                 numCommits: repo.numCommits,
                 popularity: repo.watchers_count + repo.stargazers_count + repo.forks_count
             }
+            return result;
         })
         .filter(function(repo) {
             return repo.numCommits > 0;
         })
         .sort(function(a, b) {
-            return b.numCommits - a.numCommits;
+            return a.numCommits - b.numCommits;
         });
         return repos;
     }

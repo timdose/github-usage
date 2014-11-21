@@ -2,9 +2,12 @@
 function drawCommitsByRepoChart(repos) {
     var chartSelector = '#commitsByRepoChart';
 
-    $(chartSelector).children().remove();
+    $(chartSelector).children().remove(); // Probably some d3 way of doing this
 
-    var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
+
+    //--------------------------------------------------------------------
+    // Set popularity values
+    //--------------------------------------------------------------------
     var popularityScale = [
         {title:'Low', range: '0-199', value:0},
         {title:'Medium', range: '200-499', value:200},
@@ -12,6 +15,9 @@ function drawCommitsByRepoChart(repos) {
         {title:'Very High', range: '1000+', value:1000},
     ];
 
+    //--------------------------------------------------------------------
+    // Set margins + size
+    //--------------------------------------------------------------------
     var margin = {
         top: 50,
         right: 70,
@@ -23,6 +29,12 @@ function drawCommitsByRepoChart(repos) {
     var height = 600 - margin.top - margin.bottom;
 
     var swatch = { width: 50, height: 20, margin: 10 };
+
+
+    //--------------------------------------------------------------------
+    // Create scale functions
+    //--------------------------------------------------------------------
+    var maxCommits = d3.max(repos, function(d){ return +d.numCommits });
 
     var x = d3.scale.linear()
         .range([0, width])
@@ -41,6 +53,10 @@ function drawCommitsByRepoChart(repos) {
         .rangeRoundBands([0,width], .1)
         .domain(popularityScale.map(function(popularityType) {return popularityType.name;} ))
 
+
+    //--------------------------------------------------------------------
+    // Create axes functions
+    //--------------------------------------------------------------------
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient('bottom');
@@ -53,12 +69,20 @@ function drawCommitsByRepoChart(repos) {
         .scale(popularity)
         .orient('bottom')
 
+
+    //--------------------------------------------------------------------
+    // Initial chart setup
+    //--------------------------------------------------------------------
     var chart = d3.select(chartSelector)
         .attr('width', width + margin.left + margin.right )
         .attr('height', height + margin.top + margin.bottom )
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+
+    //--------------------------------------------------------------------
+    // Draw axes
+    //--------------------------------------------------------------------
     chart.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,' + height + ')')
@@ -73,6 +97,10 @@ function drawCommitsByRepoChart(repos) {
         .attr('class', 'y axis')
         .call(yAxis)
 
+
+    //--------------------------------------------------------------------
+    // Draw color key
+    //--------------------------------------------------------------------
     var colorKey = chart.append('g')
         .attr('class', 'color-key')
         .attr('transform', 'translate(0,'+(height+70)+')')
@@ -112,23 +140,26 @@ function drawCommitsByRepoChart(repos) {
         .text(function(d) { return '(' + d.range + ')' })
 
 
+    //--------------------------------------------------------------------
+    // Draw bars
+    //--------------------------------------------------------------------
     var bar = chart.selectAll('.bar-group')
         .data(repos)
         .enter()
         .append('g')
         .attr('class', 'bar-group')
-        .attr('transform', function(d) { return 'translate(0,' + (height-y(d.name)) + ')'})
+        .attr('transform', function(d) { return 'translate(0,' + (y(d.name)) + ')'})
 
     bar.append('rect')
         .attr('class', 'bar')
-        .attr('y', 0 - y.rangeBand() )
+        .attr('dy', y.rangeBand() )
         .attr('height', y.rangeBand() )
         .attr('width', function(d) { return x(d.numCommits) } )
         .attr('fill', function(d) { return color(d.popularity); })
     
     bar.append('text')
         .attr('class', 'amount')
-        .attr('y', 0-y.rangeBand()/2 )
+        .attr('y', y.rangeBand()/2 )
         .attr('dy', '.25em')
         .attr('x', function(d) { return x(d.numCommits) + 5 } )
         .text(function(d) {return d.numCommits; })
